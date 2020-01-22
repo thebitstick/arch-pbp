@@ -8,7 +8,7 @@ See the releases page for a prebuilt image.
 
 The default usernames are as they are by default in Arch Linux ARM: There's a default unprivileged user named `alarm` with the password `alarm`, and the default root password is `root`.
 
-The Pinebook Pro-specific packages are taken from doomba's repository [here](https://simulated.earth/archlinux/pinebookpro/aarch64/).
+The Pinebook Pro-specific packages are taken from [Brian Salcedo](https://github.com/salcedo)'s repository [here](https://simulated.earth/archlinux/pinebookpro/aarch64/). The PKGBUILDs used can be found [here](https://github.com/salcedo/pinebookpro-PKGBUILDs).
 
 If you're using this image to set up Arch yourself, you will also need to build and install u-boot for your setup, instructions on how to do that are [here](https://eno.space/blog//2020/01/pbp-uboot).
 
