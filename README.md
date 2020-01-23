@@ -10,14 +10,11 @@ The default usernames are as they are by default in Arch Linux ARM: There's a de
 
 The Pinebook Pro-specific packages are taken from doomba's repository [here](https://simulated.earth/archlinux/pinebookpro/aarch64/).
 
-If you're using this image to set up Arch yourself, you will also need to build and install u-boot for your setup, instructions on how to do that are [here](https://eno.space/blog//2020/01/pbp-uboot).
-
-
 ## Dependencies
 This script has only been tested on an Arch x86\_64 system.
 
 ```
-base-devel bc dtc multipath-tools e2fsprogs parted arch-install-scripts arm-none-eabi-gcc
+multipath-tools e2fsprogs parted arch-install-scripts
 ```
 
-No extra dependencies should be needed on aarch64, but for other architectures you'll also need `aarch64-linux-gnu-gcc` and some way to run aarch64 binaries, such as `qemu-user-static-bin` + `binfmt-qemu-static` from AUR.
+No extra dependencies should be needed on aarch64, but for other architectures you'll also need some way to run aarch64 binaries, such as `qemu-user-static-bin` + `binfmt-qemu-static` from the AUR.
