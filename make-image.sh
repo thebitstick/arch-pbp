@@ -4,7 +4,7 @@ set -eu
 
 cleanup() {
 	umount root || :
-	kpartx -d arch.img || :
+	kpartx -d $image || :
 }
 
 trap cleanup ERR
@@ -13,6 +13,8 @@ if [[ $UID -ne 0 ]]; then
 	echo "This script must be run as root."
 	exit
 fi
+
+image=alarm-$(date --iso-8601).img
 
 tarball=ArchLinuxARM-aarch64-latest.tar.gz
 url=http://os.archlinuxarm.org/os/$tarball
@@ -23,17 +25,17 @@ fi
 
 # Just in case
 umount root || :
-kpartx -d arch.img || :
+kpartx -d $image || :
 
-rm -f arch.img
-fallocate -l 2G arch.img
+rm -f $image
+fallocate -l 2G $image
 
-parted arch.img -- mktable msdos
-parted arch.img -- mkpart primary ext4 16MiB -0M
-parted arch.img -- set 1 boot on
+parted $image -- mktable msdos
+parted $image -- mkpart primary ext4 16MiB -0M
+parted $image -- set 1 boot on
 
-loopdev=$(kpartx arch.img | cut -d" " -f1)
-kpartx -a arch.img
+loopdev=$(kpartx $image | cut -d" " -f1)
+kpartx -a $image
 
 mkdir -p root
 
@@ -68,7 +70,7 @@ FDT /boot/dtbs/rockchip/rk3399-pinebook-pro.dtb
 APPEND initrd=/boot/initramfs-linux.img console=tty1 rootwait root=UUID=${rootuuid} rw
 EOF
 
-dd if=root/boot/idbloader.img of=arch.img seek=64 conv=notrunc
-dd if=root/boot/u-boot.itb of=arch.img seek=16384 conv=notrunc
+dd if=root/boot/idbloader.img of=$image seek=64 conv=notrunc
+dd if=root/boot/u-boot.itb of=$image seek=16384 conv=notrunc
 
 cleanup
