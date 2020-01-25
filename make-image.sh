@@ -44,12 +44,8 @@ mount /dev/mapper/$loopdev root
 bsdtar -xpvf $tarball -C root/
 
 lineno=$(($(grep -Fn "[aur]" root/etc/pacman.conf | cut -d: -f1)+2))
-cat <(head -n $lineno root/etc/pacman.conf) - \
-	<(tail -n +$lineno root/etc/pacman.conf) << EOF > root/etc/pacman.conf.new
-[pinebookpro]
-SigLevel = Optional TrustAll
-Server = https://simulated.earth/archlinux/pinebookpro/aarch64/
-EOF
+cat <(head -n $lineno root/etc/pacman.conf) pinebookpro.conf \
+	<(tail -n +$lineno root/etc/pacman.conf) > root/etc/pacman.conf.new
 
 rm root/etc/pacman.conf
 mv root/etc/pacman.conf{.new,}
@@ -63,12 +59,7 @@ arch-chroot root pacman -Syu linux-pinebookpro pinebookpro-firmware \
 
 rootuuid=$(blkid /dev/mapper/$loopdev | cut -d\" -f2)
 mkdir root/boot/extlinux
-cat << EOF > root/boot/extlinux/extlinux.conf
-LABEL Arch Linux ARM
-KERNEL /boot/Image
-FDT /boot/dtbs/rockchip/rk3399-pinebook-pro.dtb
-APPEND initrd=/boot/initramfs-linux.img console=tty1 rootwait root=UUID=${rootuuid} rw
-EOF
+sed "s/<UUID>/${rootuuid}/" extlinux.conf > root/boot/extlinux/extlinux.conf
 
 dd if=root/boot/idbloader.img of=$image seek=64 conv=notrunc
 dd if=root/boot/u-boot.itb of=$image seek=16384 conv=notrunc
