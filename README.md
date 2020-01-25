@@ -6,7 +6,7 @@ See the releases page for a prebuilt image.
 
 >**Note**: I have not tried writing this image to eMMC as I would not be able to recover it if something went wrong. Do that at your own risk and be sure you can fix it if something goes wrong.
 
-The default usernames are as they are by default in Arch Linux ARM: There's a default unprivileged user named `alarm` with the password `alarm`, and the default root password is `root`.
+By default there is only a root user with no password.
 
 The Pinebook Pro-specific packages are taken from [Brian Salcedo](https://github.com/salcedo)'s repository [here](https://simulated.earth/archlinux/pinebookpro/aarch64/). The PKGBUILDs used can be found [here](https://github.com/salcedo/pinebookpro-PKGBUILDs).
 
