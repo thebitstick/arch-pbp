@@ -16,13 +16,6 @@ fi
 
 image=alarm-$(date --iso-8601).img
 
-tarball=ArchLinuxARM-aarch64-latest.tar.gz
-url=http://os.archlinuxarm.org/os/$tarball
-
-if [[ ! -f $tarball ]]; then
-	wget $url
-fi
-
 # Just in case
 umount root || :
 kpartx -d $image || :
@@ -41,7 +34,10 @@ mkdir -p root
 
 mkfs.ext4 /dev/mapper/$loopdev
 mount /dev/mapper/$loopdev root
-bsdtar -xpvf $tarball -C root/
+
+pacstrap -GMC pacman.conf root/ base linux-pinebookpro \
+	pinebookpro-firmware pinebookpro-post-install pinebookpro-uboot \
+	netctl wpa_supplicant dhcpcd dialog --noconfirm
 
 lineno=$(($(grep -Fn "[aur]" root/etc/pacman.conf | cut -d: -f1)+2))
 cat <(head -n $lineno root/etc/pacman.conf) pinebookpro.conf \
@@ -52,10 +48,6 @@ mv root/etc/pacman.conf{.new,}
 
 arch-chroot root pacman-key --init
 arch-chroot root pacman-key --populate archlinuxarm
-arch-chroot root pacman -R linux-aarch64 --noconfirm
-arch-chroot root pacman -Syu linux-pinebookpro pinebookpro-firmware \
-	pinebookpro-post-install netctl wpa_supplicant dhcpcd dialog \
-	pinebookpro-uboot --noconfirm
 
 rootuuid=$(blkid /dev/mapper/$loopdev | cut -d\" -f2)
 mkdir root/boot/extlinux
