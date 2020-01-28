@@ -36,7 +36,7 @@ mkfs.ext4 /dev/mapper/$loopdev
 mount /dev/mapper/$loopdev root
 
 pacstrap -GMC pacman.conf root/ base linux-pinebookpro \
-	pinebookpro-firmware pinebookpro-post-install pinebookpro-uboot \
+	pinebookpro-firmware pinebookpro-post-install uboot-pinebookpro \
 	netctl wpa_supplicant dhcpcd dialog --noconfirm
 
 lineno=$(($(grep -Fn "[aur]" root/etc/pacman.conf | cut -d: -f1)+2))
