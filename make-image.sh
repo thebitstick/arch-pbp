@@ -46,9 +46,6 @@ cat <(head -n $lineno root/etc/pacman.conf) pinebookpro.conf \
 rm root/etc/pacman.conf
 mv root/etc/pacman.conf{.new,}
 
-arch-chroot root pacman-key --init
-arch-chroot root pacman-key --populate archlinuxarm
-
 rootuuid=$(blkid /dev/mapper/$loopdev | cut -d\" -f2)
 mkdir root/boot/extlinux
 sed "s/<UUID>/${rootuuid}/" extlinux.conf > root/boot/extlinux/extlinux.conf
