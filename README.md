@@ -18,3 +18,15 @@ multipath-tools e2fsprogs parted arch-install-scripts
 ```
 
 No extra dependencies should be needed on aarch64, but for other architectures you'll also need some way to run aarch64 binaries, such as `qemu-user-static-bin` + `binfmt-qemu-static` from the AUR.
+
+## Installation
+1. Download the [latest release](https://github.com/nadiaholmquist/arch-pbp/releases) of the prebuilt image, or generate the image yourself.
+2. `unxz alarm-2020-04-02.img.xz` or whatever your generated xz archive is called.
+3. `dd if=alarm-2020-04-02.img of=/dev/YOUR_USB_OR_SD_CARD` or whatever your generated img is called.
+4. After booting the media, connect to the Internet by either using wired Ethernet, or by using `wifi-menu` to connect to Wi-Fi.
+5. `systemctl enable dhcpcd`
+6. Finish setup by initializing Pacman keys to download packages
+```bash
+$ pacman-key --init
+$ pacman-key --populate archlinuxarm
+```
